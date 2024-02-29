@@ -60,6 +60,18 @@ public:
 
 
 private:
+
+    //Create our Aliases since Juce uses a tonnnn of nested namespaces
+
+    using Filter = juce::dsp::IIR::Filter<float>;
+
+    //allows us to use up to 48db per octave, (12dB per filter)
+    using CutFilter = juce::dsp::ProcessorChain<Filter, Filter, Filter, Filter>;
+
+    using MonoChain = juce::dsp::ProcessorChain<CutFilter, Filter, CutFilter>;
+
+    MonoChain leftChain, rightChain;
+
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SimpleEQAudioProcessor)
 };
